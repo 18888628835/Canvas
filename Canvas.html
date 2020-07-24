@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="tutorial" width="150" height="150"></canvas>
+    <script>
+        var canvas = document.getElementById('tutorial'); //获取到画板的变量
+        canvas.width = document.documentElement.clientWidth; //让画板的windth和文档一样
+        canvas.height = document.documentElement.clientHeight;
+        var ctx = canvas.getContext("2d");
+        let flag; //设置一个开关
+        let lastIndexX //设置上一次坐标x
+        let laseIndexY //设置上一次坐标y
+        var sUserAgent = navigator.userAgent;
+        ctx.lineWidth = 10; //设置线的宽度
+        ctx.lineCap = "round"; //设置一条线结束时端点样式，不设置会导致结束处有断点
+        //获取是否为手机端登陆。是手机端则执行if 不是则执行else
+        if (sUserAgent.indexOf('Android') > -1 || sUserAgent.indexOf('iPhone') > -1 || sUserAgent.indexOf('iPad') > -
+            1 || sUserAgent.indexOf('iPod') > -1 || sUserAgent.indexOf('Symbian') > -1) {
+            canvas.addEventListener('touchstart', (e) => { //当点击时，获取一个坐标
+                lastIndexX = e.touches[0].clientX
+                laseIndexY = e.touches[0].clientY
+            })
+            canvas.addEventListener('touchmove', (e) => { //移动时，让第一次获取的开始位置跟移动位置划线
+                drawLine(lastIndexX, laseIndexY, e.touches[0].clientX, e.touches[0].clientY)
+                lastIndexX = e.touches[0].clientX //更新坐标
+                laseIndexY = e.touches[0].clientY
+            })
+        } else { //不是手机端登陆则执行以下代码
+            canvas.addEventListener('mousedown', (e) => {
+                lastIndexX = e.clientX;
+                lastIndexY = e.clientY
+                flag = true
+            })
+            canvas.addEventListener('mousemove', (e) => {
+                if (flag === true) {
+                    drawLine(lastIndexX, lastIndexY, e.clientX, e.clientY)
+                    lastIndexX = e.clientX
+                    lastIndexY = e.clientY
+                }
+            })
+            canvas.addEventListener('mouseup', () => {
+                flag = false
+            })
+        }
+        //这个函数用来划线，从开始坐标到结束坐标画一根线
+        function drawLine(a, b, x, y) {
+            ctx.beginPath();
+            ctx.moveTo(a, b); //初始位置坐标
+            ctx.lineTo(x, y); //结束位置画一根线
+            ctx.stroke(); //描边
+        }
+    </script>
+</body>
+
+</html>
