@@ -16,7 +16,7 @@ window.onload = function () {
         border-radius:50%;
         word-break:normal;
     }
-    /*再涂一点渐变颜色*/
+    /*再涂一点颜色*/
     .div{
         background: linear-gradient(90deg, 
         rgba(255,255,255,1) 50%, 
@@ -45,6 +45,16 @@ window.onload = function () {
         background: radial-gradient(circle, rgba(0,0,0,1) 25%, rgba(255,255,255,1) 25%, rgba(255,255,255,1) 99%);
     }
     /*看吧 画好啦*/
+    /*我想让他转起来噢*/
+    /*好哒 oo^_^oo */
+    .div{
+        animation:rotate 30s infinite linear;
+    }
+    @keyframes rotate
+{
+    100%{transform: rotate(3600deg);}
+}
+/*做完啦*/
     `
 
     function write() {
